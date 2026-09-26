@@ -482,6 +482,44 @@
         "Да, отлично, спросим третий - тогда будет два против одного и станет понятно, кто прав. Двое из трёх значит верно.",
         "Двое из трёх сказали 10 дней - значит, 10 и есть верный срок, можно на это опираться."
       ]
+    },
+    {
+      "id": "compare-does-average-nothing-when-they-answered-a-question",
+      "rows": [
+        "R17"
+      ],
+      "skills": [
+        "compare"
+      ],
+      "what": "NEGATIVE CONTROL for §0 - the two answered a question, so «оставляю первое письмо» must not appear",
+      "situation": "The person asked both AIs a plain factual question: how long a shop has to answer a written complaint. Neither wrote anything for the person to send.\n\nFIRST AI (Claude) said, in full:\n  «По закону у магазина 10 дней на ответ на письменную претензию.»\n\nSECOND AI (ChatGPT) said, in full:\n  «Магазин обязан ответить в течение 10 дней. Если молчит - пишите в Роспотребнадзор.»",
+      "user": "что скажешь по этим двум ответам?",
+      "forbid": [
+        {
+          "re": "(оставля[юе]|отправ[ьл])[^.\\n]{0,30}перв[а-я]+ письмо|перв[а-я]+ письмо как есть",
+          "why": "§0 fired where there is no letter at all - the form leaked into a factual comparison"
+        },
+        {
+          "re": "написано вашим голосом|ваш(им)? голос[а-я]* ",
+          "why": "talked about voice where nobody wrote anything in the person's voice"
+        }
+      ],
+      "require_any": [
+        {
+          "re": [
+            "сошлись",
+            "оба",
+            "совпад",
+            "одно и то же",
+            "10 дней"
+          ],
+          "why": "do the actual comparison"
+        }
+      ],
+      "failing_examples": [
+        "Я бы отправил первое письмо как есть - оно написано вашим голосом. Второе слишком официальное.",
+        "Оставляю первое письмо, а из второго возьмём срок."
+      ]
     }
   ]
 }
