@@ -132,8 +132,31 @@ def normalise(t):
     return t
 
 
-def _find(pattern, text):
-    return re.search(normalise(pattern), text, re.IGNORECASE | re.UNICODE | re.DOTALL)
+FLAGS = re.IGNORECASE | re.UNICODE | re.DOTALL
+
+# How far either side of a hit to look for the words that cancel it.
+WINDOW = 70
+
+
+def _find(pattern, text, unless=None):
+    """First match of `pattern`, skipping matches that `unless` cancels.
+
+    `unless` exists because the forbidden phrase is often the very phrase a correct
+    answer quotes in order to refuse it: «„Всё в порядке" я сказать не могу», «даже
+    если бы оба назвали 14 дней», «Два ИИ посмотрели - это не то же самое, что
+    „проверено"». Those are the skill working, not failing. The cancel is deliberately
+    narrow - a window of a few words, and a phrase named in the case - so that a plain
+    «всё в порядке» still fails.
+    """
+    pattern = normalise(pattern)
+    unless = normalise(unless) if unless else None
+    for m in re.finditer(pattern, text, FLAGS):
+        if unless:
+            near = text[max(0, m.start() - WINDOW) : m.end() + WINDOW]
+            if re.search(unless, near, FLAGS):
+                continue
+        return m
+    return None
 
 
 def check(case, raw):
@@ -142,7 +165,7 @@ def check(case, raw):
     answer = normalise(raw)
 
     for pat in case.get("forbid", []):
-        m = _find(pat["re"], answer)
+        m = _find(pat["re"], answer, pat.get("unless"))
         if m:
             bad.append("SAID WHAT IT MUST NOT: %s -- matched %r" % (pat["why"], m.group(0)[:120]))
 
@@ -197,6 +220,8 @@ def main():
     ap.add_argument("--timeout", type=int, default=300)
     ap.add_argument("--refresh", action="store_true", help="re-ask the model even if an answer is stored")
     ap.add_argument("--list", action="store_true")
+    ap.add_argument("--selftest", action="store_true",
+                    help="check the checker: every case must flag its own failing_example. No model is called.")
     args = ap.parse_args()
 
     cases = json.loads(CASES.read_text(encoding="utf-8"))["cases"]
@@ -214,6 +239,30 @@ def main():
     if not cases:
         print("no cases selected")
         return 2
+
+    if args.selftest:
+        # A green suite means nothing until the assertions are shown to be capable of
+        # going red. Each case carries `failing_example`: a short answer that commits
+        # the failure the case exists to catch. If the checker passes it, the case is
+        # decoration and says so here rather than in six months.
+        print("selftest - every case must flag its own failing_example (no model is called)\n")
+        vacuous = []
+        for c in cases:
+            ex = c.get("failing_example")
+            if not ex:
+                print("MISSING failing_example  %s" % c["id"])
+                vacuous.append(c["id"])
+                continue
+            bad = check(c, ex)
+            if bad:
+                print("ok   %-44s caught: %s" % (c["id"], bad[0][:80]))
+            else:
+                print("VACUOUS %-41s the failing example passes - this case proves nothing" % c["id"])
+                vacuous.append(c["id"])
+        print("\n%d/%d cases can go red." % (len(cases) - len(vacuous), len(cases)))
+        if vacuous:
+            print("not provable: %s" % ", ".join(vacuous))
+        return 0 if not vacuous else 1
 
     print("duocall behaviour suite - %d cases - model: %s" % (len(cases), args.model))
     print("(the checker is regular expressions, not a model; the model only answers)\n")
