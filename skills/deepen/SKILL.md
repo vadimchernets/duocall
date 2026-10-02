@@ -2,10 +2,22 @@
 name: deepen
 description: Go back to the AIs about the disputed points only, keeping the answers they already gave. Use it after a comparison has found a real disagreement and the person asks "so who's right", "how can I find out", "which one of them", "how do I settle this", "let's figure it out". Do not use it when the two agreed - there is nothing to settle.
 argument-hint: "[which disagreement, if there was more than one]"
-allowed-tools: Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/second.py *) Read
+allowed-tools: Bash(sh "${CLAUDE_PLUGIN_ROOT}/hooks/python.sh" duocall say scripts/second.py *) PowerShell(& "${CLAUDE_PLUGIN_ROOT}/hooks/python.ps1" duocall say scripts/second.py *) Read
 ---
 
 # Duocall: settle only what is actually in dispute
+
+## Running duocall's scripts (Mac, Linux, Windows)
+
+Every script command on this page is written for the **Bash** tool and starts with
+`sh "${CLAUDE_PLUGIN_ROOT}/hooks/python.sh" duocall say scripts/…`. If your shell tool is **PowerShell** (Windows
+without Git Bash), run the same command with only its start changed: `& "${CLAUDE_PLUGIN_ROOT}/hooks/python.ps1"`
+in place of `sh "${CLAUDE_PLUGIN_ROOT}/hooks/python.sh"`, everything after it unchanged, on one line; text for
+standard input goes in as `@'…'@ | & "${CLAUDE_PLUGIN_ROOT}/hooks/python.ps1" …` instead of `<<'EOF'`.
+Never call `python3`, `python` or `py` yourself: the launcher finds a real Python 3.8+ (`python`,
+then `py -3`, then `python3`) and never starts the Microsoft Store or Apple stub. If it answers
+with one line saying duocall "is paused" because this computer has no working Python 3 yet, tell the
+person that in one plain line and go on by hand — never show them a Python error and stop.
 
 The user said: $ARGUMENTS
 

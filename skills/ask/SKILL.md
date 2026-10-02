@@ -2,10 +2,22 @@
 name: ask
 description: Put the same question to an AI from a DIFFERENT company and bring back its answer word for word. Use it when the person says "ask a second AI", "have someone else check it", "ask another AI", "second opinion", "what would another one say" - and offer it yourself, once, when the stakes are real: money, health, a contract, a deadline, or a decision they cannot take back. Do not use it for ordinary questions; a second opinion on every sentence is noise.
 argument-hint: "<the question, or nothing to reuse the last one>"
-allowed-tools: Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/second.py *) Read
+allowed-tools: Bash(sh "${CLAUDE_PLUGIN_ROOT}/hooks/python.sh" duocall say scripts/second.py *) PowerShell(& "${CLAUDE_PLUGIN_ROOT}/hooks/python.ps1" duocall say scripts/second.py *) Read
 ---
 
 # Duocall: ask the second AI
+
+## Running duocall's scripts (Mac, Linux, Windows)
+
+Every script command on this page is written for the **Bash** tool and starts with
+`sh "${CLAUDE_PLUGIN_ROOT}/hooks/python.sh" duocall say scripts/…`. If your shell tool is **PowerShell** (Windows
+without Git Bash), run the same command with only its start changed: `& "${CLAUDE_PLUGIN_ROOT}/hooks/python.ps1"`
+in place of `sh "${CLAUDE_PLUGIN_ROOT}/hooks/python.sh"`, everything after it unchanged, on one line; text for
+standard input goes in as `@'…'@ | & "${CLAUDE_PLUGIN_ROOT}/hooks/python.ps1" …` instead of `<<'EOF'`.
+Never call `python3`, `python` or `py` yourself: the launcher finds a real Python 3.8+ (`python`,
+then `py -3`, then `python3`) and never starts the Microsoft Store or Apple stub. If it answers
+with one line saying duocall "is paused" because this computer has no working Python 3 yet, tell the
+person that in one plain line and go on by hand — never show them a Python error and stop.
 
 The user said: $ARGUMENTS
 
@@ -20,7 +32,7 @@ is no pair, and you say so instead of inventing one.
 ## 2. Find out what is actually on this machine
 
 ```
-python3 "${CLAUDE_PLUGIN_ROOT}/scripts/second.py" list
+sh "${CLAUDE_PLUGIN_ROOT}/hooks/python.sh" duocall say scripts/second.py list
 ```
 
 **If a program is there**, say who it is in the person's words and what it will cost them — not
@@ -32,7 +44,7 @@ money, but their own monthly allowance with that company:
 Then ask it. Send the question **unchanged** — not your summary of it, and not your answer attached:
 
 ```
-python3 "${CLAUDE_PLUGIN_ROOT}/scripts/second.py" ask -
+sh "${CLAUDE_PLUGIN_ROOT}/hooks/python.sh" duocall say scripts/second.py ask -
 ```
 
 and give it the question on standard input. Never paste your own answer into the question: an AI
@@ -78,8 +90,8 @@ The script says why, and the commonest reason is the allowance running out. Say 
 Never hide a failed second opinion and never quietly answer twice yourself and call it a pair.
 **A pair that did not happen is said out loud.**
 
-## If `python3` is not on this machine
+## If the launcher says there is no Python
 
-On Windows it often is not. Try `py -3`, then `python`. If none runs, do not stop and do not show a
+Do not stop and do not show a
 Python error: fall back to the browser path — hand the person the block to paste into a free chat
 of another company, which needs no program at all.

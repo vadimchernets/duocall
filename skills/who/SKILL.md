@@ -2,10 +2,22 @@
 name: who
 description: Say plainly which AIs answered, which did not, and which were never there - so the person knows how many opinions they actually got. Use it at the end of anything involving a second AI, and whenever they ask "who answered", "did both say that?", "who said that", "how many AIs checked this".
 argument-hint: "[nothing]"
-allowed-tools: Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/second.py *) Read
+allowed-tools: Bash(sh "${CLAUDE_PLUGIN_ROOT}/hooks/python.sh" duocall say scripts/second.py *) PowerShell(& "${CLAUDE_PLUGIN_ROOT}/hooks/python.ps1" duocall say scripts/second.py *) Read
 ---
 
 # Duocall: who actually answered
+
+## Running duocall's scripts (Mac, Linux, Windows)
+
+Every script command on this page is written for the **Bash** tool and starts with
+`sh "${CLAUDE_PLUGIN_ROOT}/hooks/python.sh" duocall say scripts/…`. If your shell tool is **PowerShell** (Windows
+without Git Bash), run the same command with only its start changed: `& "${CLAUDE_PLUGIN_ROOT}/hooks/python.ps1"`
+in place of `sh "${CLAUDE_PLUGIN_ROOT}/hooks/python.sh"`, everything after it unchanged, on one line; text for
+standard input goes in as `@'…'@ | & "${CLAUDE_PLUGIN_ROOT}/hooks/python.ps1" …` instead of `<<'EOF'`.
+Never call `python3`, `python` or `py` yourself: the launcher finds a real Python 3.8+ (`python`,
+then `py -3`, then `python3`) and never starts the Microsoft Store or Apple stub. If it answers
+with one line saying duocall "is paused" because this computer has no working Python 3 yet, tell the
+person that in one plain line and go on by hand — never show them a Python error and stop.
 
 The user said: $ARGUMENTS
 
@@ -46,7 +58,7 @@ line is families, and the word "compan..." is in it:
 
 Never write "Total: two answers" and leave the person to work out that both were yours.
 
-Use `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/second.py" list` if you need to check what is on the
+Use `sh "${CLAUDE_PLUGIN_ROOT}/hooks/python.sh" duocall say scripts/second.py list` if you need to check what is on the
 machine rather than remember it.
 
 ## 3. What this line is not
@@ -72,8 +84,8 @@ reads like a complete answer and is not one: it does not say who was asked, it d
 ChatGPT ran out of allowance, and the person walks away thinking the second AI was never there
 rather than that it is coming back in four hours. Form first, then this.
 
-## If `python3` is not on this machine
+## If the launcher says there is no Python
 
-On Windows it often is not. Try `py -3`, then `python`. If none runs, do not stop and do not show a
+Do not stop and do not show a
 Python error: fall back to the browser path — hand the person the block to paste into a free chat
 of another company, which needs no program at all.
