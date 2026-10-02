@@ -1,0 +1,19 @@
+{
+  "title": "Duocall: a real second opinion from a different AI company",
+  "description": "Duocall is a Claude Code plugin that gets a real second opinion on a question that matters, from an AI of a different company, and then says honestly where the two agreed and where they did not. It finds a second AI program already installed and signed in on the computer; if there is none, it hands the person the exact text to paste into a free chat in their browser and reads the reply back. It never claims the two agreed without quoting both, never merges two answers into one confident voice, and goes back for a second round only on the points that were actually in dispute. No keys, no accounts, no second subscription, nothing bought.",
+  "creators": [
+    {
+      "name": "Chernets, Vadym"
+    }
+  ],
+  "upload_type": "software",
+  "license": "apache-2.0",
+  "keywords": [
+    "claude-code-plugin",
+    "second-opinion",
+    "council",
+    "cross-check",
+    "disagreement",
+    "non-programmers"
+  ]
+}
