@@ -1,5 +1,7 @@
 # Duocall
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23107731.svg)](https://doi.org/10.5281/zenodo.23107731)
+
 **A second opinion from a different company's AI — and an honest account of where the two
 disagreed. Because two AIs agreeing is not proof.**
 
