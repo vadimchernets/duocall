@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.0 — 2026-10-03
+
+- Five languages. Every word `scripts/second.py` says to a person - the list, and the `why` of a second opinion
+  that did not happen - lives in `lang/en.json`, `es.json`, `pt.json`, `ru.json`, `uk.json`, English underneath
+  anything missing. `--lang` on `list`, `ask` and the new `words`; without it `DUOCALL_LANG`, then the system's
+  language. `second.py words --lang <code>` prints the sentences the skills say word for word (the browser block,
+  "<who> answered:", the allowance that ran out, what a second opinion costs), and `ask` uses them instead of an
+  improvised translation. Each failure also carries a stable `code` (`none`, `absent`, `timeout`, `start-failed`,
+  `allowance`, `failed`). The skills pass the person's language. Tests: every language has every word with the
+  same placeholders, each language reaches the output, the system language is honoured, and the tests themselves
+  run in English whatever the machine's language is.
+
 ## 0.1.6 — 2026-10-02
 
 - On Windows the step-0 launcher (`hooks/python.ps1`, and `hooks/python.sh` in Git Bash) also finds a Python installed

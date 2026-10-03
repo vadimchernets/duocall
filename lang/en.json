@@ -1,0 +1,18 @@
+{
+  "name": "English",
+  "_purpose": "Every word scripts/second.py says to a person, and (keys starting with say_) the sentences the skills say, printed by `second.py words`. Keep every {placeholder}. A missing key falls back to this file.",
+  "list_none": "There is no second program from another company on this computer.",
+  "list_none_browser": "That isn't a malfunction: you can get a second opinion for free, in another company's browser chat - just do that.",
+  "list_found": "Found {count} program(s) from another company, already installed and signed in:",
+  "why_none": "no second program from another company",
+  "why_absent": "{who} is not on this computer",
+  "why_timeout": "did not answer within {seconds} seconds",
+  "why_start": "failed to start: {error}",
+  "why_exit": "exit code {code}",
+  "why_allowance": "this program's monthly or daily allowance has run out",
+  "say_cost": "You have {who} on this computer. I'll ask it the same question. That will use up a little of your monthly allowance with them - you don't need a second subscription.",
+  "say_browser": "There's no second program on this computer, and that's not a problem: open any free chat from another company in your browser and paste this into it. Then send me back what it answers.",
+  "say_answered": "{who} answered:",
+  "say_allowance": "{who} didn't answer just now - it's run out of its monthly allowance. That's not a malfunction and you don't need to pay for it: the allowance comes back on its own. You can get a second opinion for free in the browser.",
+  "say_not_proof": "Two AIs agreeing is not proof."
+}

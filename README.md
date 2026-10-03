@@ -67,6 +67,16 @@ it and deletes their saved data.
 Then, in `/plugin` → Marketplaces, **turn on auto-update** — for marketplaces that are not
 Anthropic's own it is off by default.
 
+## Languages
+
+Everything the script says to the person, and the sentences the skills say word for word (the block
+for the browser chat, the answer's heading, the allowance that ran out), live in `lang/<code>.json`:
+English, Spanish, Portuguese, Russian and Ukrainian, with English underneath any word a language is
+missing. The skills pass the person's language with `--lang`; on its own the script takes
+`DUOCALL_LANG`, then the system's language. `second.py words --lang <code>` prints the skills'
+sentences. Failures keep a stable `code` (`none`, `absent`, `timeout`, `start-failed`, `allowance`,
+`failed`) next to the translated `why`, so a program never has to read a sentence.
+
 ## Requirements
 
 Claude Code with plugin support and `python3`. A second AI program is optional: without one the

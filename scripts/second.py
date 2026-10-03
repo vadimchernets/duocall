@@ -24,6 +24,42 @@ import shutil
 import subprocess
 import sys
 
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LANG_DIR = os.path.join(ROOT, "lang")
+
+
+def lang_words(code="en"):
+    """lang/<code>.json, English underneath anything missing."""
+    words = {}
+    for name in ("en", code):
+        try:
+            with open(os.path.join(LANG_DIR, "%s.json" % name), encoding="utf-8") as handle:
+                data = json.load(handle)
+        except (OSError, ValueError):
+            continue
+        if isinstance(data, dict):
+            words.update(data)
+    return words
+
+
+def pick_lang(explicit=None):
+    """--lang, then DUOCALL_LANG, then the system's language, then English."""
+    for value in (explicit, os.environ.get("DUOCALL_LANG"), os.environ.get("LC_ALL"),
+                  os.environ.get("LC_MESSAGES"), os.environ.get("LANG")):
+        if isinstance(value, str) and len(value) >= 2:
+            code = value[:2].lower()
+            if os.path.exists(os.path.join(LANG_DIR, "%s.json" % code)):
+                return code
+    return "en"
+
+
+WORDS = lang_words("en")
+
+
+def t(key, **values):
+    text = WORDS.get(key, key)
+    return text.format(**values) if values else text
+
 # family -> (binary, args builder, human name). Claude is deliberately absent: it is the one asking.
 FAMILIES = [
     ("openai", "codex",  lambda p: ["exec", "--skip-git-repo-check", "-s", "read-only", p],
@@ -55,11 +91,10 @@ def available():
 def cmd_list(args):
     found = available()
     if not found:
-        print("There is no second program from another company on this computer.")
-        print("That isn't a malfunction: you can get a second opinion for free, in another "
-              "company's browser chat - just do that.")
+        print(t("list_none"))
+        print(t("list_none_browser"))
         return 1
-    print(f"Found {len(found)} program(s) from another company, already installed and signed in:")
+    print(t("list_found", count=len(found)))
     for f in found:
         print(f"  {f['name']} - {f['binary']}")
     return 0
@@ -68,7 +103,7 @@ def cmd_list(args):
 def cmd_ask(args):
     found = available()
     if not found:
-        print(json.dumps({"ok": False, "why": "no second program from another company"},
+        print(json.dumps({"ok": False, "code": "none", "why": t("why_none")},
                          ensure_ascii=False))
         return 1
 
@@ -76,7 +111,7 @@ def cmd_ask(args):
     if args.who:
         pick = next((f for f in found if args.who.lower() in (f["binary"], f["family"])), None)
         if pick is None:
-            print(json.dumps({"ok": False, "why": f"{args.who} is not on this computer"},
+            print(json.dumps({"ok": False, "code": "absent", "why": t("why_absent", who=args.who)},
                              ensure_ascii=False))
             return 1
     else:
@@ -91,22 +126,23 @@ def cmd_ask(args):
         done = subprocess.run([pick["binary"], *build(prompt)],
                               capture_output=True, text=True, timeout=TIMEOUT)
     except subprocess.TimeoutExpired:
-        print(json.dumps({"ok": False, "who": pick["name"], "binary": pick["binary"],
-                          "why": f"did not answer within {TIMEOUT} seconds"}, ensure_ascii=False))
+        print(json.dumps({"ok": False, "code": "timeout", "who": pick["name"], "binary": pick["binary"],
+                          "why": t("why_timeout", seconds=TIMEOUT)}, ensure_ascii=False))
         return 1
     except OSError as e:
-        print(json.dumps({"ok": False, "who": pick["name"], "why": f"failed to start: {e}"},
-                         ensure_ascii=False))
+        print(json.dumps({"ok": False, "code": "start-failed", "who": pick["name"],
+                          "why": t("why_start", error=e)}, ensure_ascii=False))
         return 1
 
     text = (done.stdout or "").strip()
     if done.returncode != 0 or not text:
         why = (done.stderr or "").strip().splitlines()
-        why = why[-1] if why else f"exit code {done.returncode}"
+        why = why[-1] if why else t("why_exit", code=done.returncode)
+        code = "failed"
         # The single most common failure, and it is not the person's fault.
         if any(w in why.lower() for w in ("quota", "limit", "rate", "usage", "429")):
-            why = "this program's monthly or daily allowance has run out"
-        print(json.dumps({"ok": False, "who": pick["name"], "binary": pick["binary"],
+            why, code = t("why_allowance"), "allowance"
+        print(json.dumps({"ok": False, "code": code, "who": pick["name"], "binary": pick["binary"],
                           "why": why}, ensure_ascii=False))
         return 1
 
@@ -115,19 +151,36 @@ def cmd_ask(args):
     return 0
 
 
+def cmd_words(args):
+    """The sentences the skills say to the person, in the person's language, for the skill to use
+    as they are: the browser block, the answer's heading, a pair that did not happen."""
+    print(json.dumps({"lang": pick_lang(args.lang),
+                      "say": {k: v for k, v in WORDS.items() if k.startswith("say_")}},
+                     ensure_ascii=False, indent=1))
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Duocall: a second AI from another company.")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     s = sub.add_parser("list", help="which programs from another company are here")
+    s.add_argument("--lang", help="en, es, pt, ru or uk (default: the system's language)")
     s.set_defaults(func=cmd_list)
 
     s = sub.add_parser("ask", help="ask the second AI a question")
     s.add_argument("prompt", help="the question text, or - to read it from standard input")
     s.add_argument("--who", help="who exactly to ask (codex, agy, grok, kimi, qwen)")
+    s.add_argument("--lang", help="en, es, pt, ru or uk (default: the system's language)")
     s.set_defaults(func=cmd_ask)
 
+    s = sub.add_parser("words", help="the sentences the skills say, in the person's language")
+    s.add_argument("--lang", help="en, es, pt, ru or uk (default: the system's language)")
+    s.set_defaults(func=cmd_words)
+
     args = ap.parse_args(argv)
+    global WORDS
+    WORDS = lang_words(pick_lang(args.lang))
     return args.func(args)
 
 

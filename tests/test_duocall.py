@@ -9,6 +9,7 @@ no plugin: it hands a person false confidence exactly when they are about to act
 
 import json
 import os
+import re
 import shutil
 import stat
 import subprocess
@@ -35,7 +36,8 @@ class Base(unittest.TestCase):
         self.bin = self.tmp / "bin"
         self.bin.mkdir()
         # An empty PATH plus only what a test puts in it: no real vendor program can be reached.
-        self.env = dict(os.environ, PATH=str(self.bin))
+        # English unless a test asks otherwise, whatever language the machine running the tests is in.
+        self.env = dict(os.environ, PATH=str(self.bin), DUOCALL_LANG="en")
 
     def tearDown(self):
         shutil.rmtree(self.tmp, ignore_errors=True)
@@ -130,6 +132,56 @@ class TestAsk(Base):
         self.assertEqual(out.returncode, 1)
         self.assertIn("is not on this computer", json.loads(out.stdout)["why"],
                       "grok was asked for - substituting another program for it is not allowed")
+
+
+LANGS = ("en", "es", "pt", "ru", "uk")
+LANG_DIR = HERE.parent / "lang"
+
+
+def words_of(code):
+    return json.loads((LANG_DIR / f"{code}.json").read_text(encoding="utf-8"))
+
+
+class TestLanguages(Base):
+    """Every word the script says to a person, in five languages, with the same placeholders."""
+
+    def test_every_language_has_every_word_with_its_placeholders(self):
+        english = words_of("en")
+        keys = {k for k in english if not k.startswith("_")}
+        for code in LANGS:
+            words = words_of(code)
+            self.assertEqual({k for k in words if not k.startswith("_")}, keys, code)
+            for key in keys:
+                self.assertEqual(set(re.findall(r"{(\w+)}", english[key])),
+                                 set(re.findall(r"{(\w+)}", words[key])), f"{code}:{key}")
+
+    def test_no_second_company_is_said_in_the_persons_language(self):
+        for code in LANGS:
+            out = self.run_second("list", "--lang", code)
+            self.assertEqual(out.returncode, 1)
+            self.assertIn(words_of(code)["list_none"], out.stdout, code)
+
+    def test_the_system_language_is_used_when_none_is_named(self):
+        env = dict(self.env, LANG="pt_BR.UTF-8")
+        env.pop("DUOCALL_LANG")
+        env.pop("LC_ALL", None)
+        env.pop("LC_MESSAGES", None)
+        out = self.run_second("list", env=env)
+        self.assertIn(words_of("pt")["list_none"], out.stdout)
+
+    def test_a_refusal_keeps_a_code_a_program_can_read(self):
+        out = self.run_second("ask", "question", "--lang", "ru")
+        got = json.loads(out.stdout)
+        self.assertEqual(got["code"], "none")
+        self.assertEqual(got["why"], words_of("ru")["why_none"])
+
+    def test_the_skills_sentences_come_in_every_language(self):
+        for code in LANGS:
+            out = self.run_second("words", "--lang", code)
+            said = json.loads(out.stdout)
+            self.assertEqual(said["lang"], code)
+            self.assertIn("say_browser", said["say"])
+            self.assertIn("{who}", said["say"]["say_answered"])
 
 
 if __name__ == "__main__":

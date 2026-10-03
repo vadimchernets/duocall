@@ -71,7 +71,7 @@ the whole difference between this and asking everything again:
 Without it the person assumes the two answers have been thrown away and the evening starts over.
 The narrow question above is what you send; this line is what you say. Both, always.
 
-Send it to the second AI with `second.py ask -`, and answer it yourself, separately, before you
+Send it to the second AI with `second.py ask - --lang <their language>` (en, es, pt, ru or uk), and answer it yourself, separately, before you
 read theirs. **Answering after reading theirs is not a second round, it is agreement.**
 
 ## 3. The three ways this ends, and all three are fine

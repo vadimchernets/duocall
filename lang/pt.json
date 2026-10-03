@@ -1,0 +1,17 @@
+{
+  "name": "Português",
+  "list_none": "Não há neste computador um segundo programa de outra empresa.",
+  "list_none_browser": "Isso não é defeito: você pode ter uma segunda opinião de graça no chat de navegador de outra empresa; é só fazer isso.",
+  "list_found": "Encontrado(s) {count} programa(s) de outra empresa, já instalado(s) e com login feito:",
+  "why_none": "não há um segundo programa de outra empresa",
+  "why_absent": "{who} não está neste computador",
+  "why_timeout": "não respondeu em {seconds} segundos",
+  "why_start": "não conseguiu iniciar: {error}",
+  "why_exit": "código de saída {code}",
+  "why_allowance": "a cota mensal ou diária deste programa acabou",
+  "say_cost": "Você tem o {who} neste computador. Vou fazer a mesma pergunta a ele. Isso gasta um pouco da sua cota mensal com eles; não precisa de uma segunda assinatura.",
+  "say_browser": "Não há um segundo programa neste computador, e tudo bem: abra no navegador qualquer chat gratuito de outra empresa e cole isto lá. Depois me mande o que ele responder.",
+  "say_answered": "{who} respondeu:",
+  "say_allowance": "O {who} não respondeu agora: a cota mensal dele acabou. Não é defeito e você não precisa pagar: a cota volta sozinha. Dá para ter uma segunda opinião de graça no navegador.",
+  "say_not_proof": "Duas IAs concordando não é prova."
+}

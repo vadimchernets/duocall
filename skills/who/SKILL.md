@@ -60,7 +60,7 @@ line is families, and the word "compan..." is in it:
 
 Never write "Total: two answers" and leave the person to work out that both were yours.
 
-Use `sh "${CLAUDE_PLUGIN_ROOT}/hooks/python.sh" duocall say scripts/second.py list` if you need to check what is on the
+Use `sh "${CLAUDE_PLUGIN_ROOT}/hooks/python.sh" duocall say scripts/second.py list --lang <their language>` if you need to check what is on the
 machine rather than remember it.
 
 ## 3. What this line is not

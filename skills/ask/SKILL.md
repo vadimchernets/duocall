@@ -34,8 +34,14 @@ is no pair, and you say so instead of inventing one.
 ## 2. Find out what is actually on this machine
 
 ```
-sh "${CLAUDE_PLUGIN_ROOT}/hooks/python.sh" duocall say scripts/second.py list
+sh "${CLAUDE_PLUGIN_ROOT}/hooks/python.sh" duocall say scripts/second.py list --lang en
 ```
+
+Put the person's own language after `--lang` in every command on this page - `en`, `es`, `pt`, `ru`
+or `uk` - because what the script prints is read by them. In those five languages the sentences
+quoted below already exist, word for word: `second.py words --lang <code>` prints them (the browser
+block, the answer's heading, the allowance that ran out), and you say those rather than your own
+translation. In any other language, translate the English ones below as closely as you can.
 
 **If a program is there**, say who it is in the person's words and what it will cost them — not
 money, but their own monthly allowance with that company:
@@ -46,7 +52,7 @@ money, but their own monthly allowance with that company:
 Then ask it. Send the question **unchanged** — not your summary of it, and not your answer attached:
 
 ```
-sh "${CLAUDE_PLUGIN_ROOT}/hooks/python.sh" duocall say scripts/second.py ask -
+sh "${CLAUDE_PLUGIN_ROOT}/hooks/python.sh" duocall say scripts/second.py ask - --lang en
 ```
 
 and give it the question on standard input. Never paste your own answer into the question: an AI

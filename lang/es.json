@@ -1,0 +1,17 @@
+{
+  "name": "Español",
+  "list_none": "En este ordenador no hay un segundo programa de otra empresa.",
+  "list_none_browser": "No es una avería: puede obtener una segunda opinión gratis en el chat de navegador de otra empresa; hágalo así.",
+  "list_found": "Se encontraron {count} programa(s) de otra empresa, ya instalados y con sesión iniciada:",
+  "why_none": "no hay un segundo programa de otra empresa",
+  "why_absent": "{who} no está en este ordenador",
+  "why_timeout": "no respondió en {seconds} segundos",
+  "why_start": "no pudo arrancar: {error}",
+  "why_exit": "código de salida {code}",
+  "why_allowance": "a este programa se le acabó el cupo mensual o diario",
+  "say_cost": "Tiene {who} en este ordenador. Le haré la misma pregunta. Eso gastará un poco de su cupo mensual con ellos; no necesita una segunda suscripción.",
+  "say_browser": "No hay un segundo programa en este ordenador, y no pasa nada: abra en el navegador cualquier chat gratuito de otra empresa y pegue esto. Luego envíeme lo que responda.",
+  "say_answered": "{who} respondió:",
+  "say_allowance": "{who} no ha respondido ahora: se le acabó el cupo mensual. No es una avería y no tiene que pagar: el cupo vuelve solo. Puede obtener una segunda opinión gratis en el navegador.",
+  "say_not_proof": "Que dos IA coincidan no es una prueba."
+}
