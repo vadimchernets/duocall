@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.1 — 2026-10-03
+
+- Wording: no disclaimers. Every sentence the person hears says what works, not what to excuse: the browser chat is
+  offered as the way a second opinion happens ("the browser does the job"), a spent allowance is "comes back on its
+  own, with nothing to pay", the step-0 line says the plugin "starts working the moment this computer has Python 3".
+  No "honestly", no "for now", no "that's not a malfunction" (five languages). `/duocall:deepen` says the third-AI
+  lines once, in §5. SECURITY.md is the dry minimum: what Duocall touches and where to report a vulnerability.
+  New test `tests/test_no_disclaimers.py` fails on stop phrases (own risk, not legal advice, for now, unfortunately,
+  honestly, sorry, and their Russian and Ukrainian forms) in every text the person or the model reads.
+
 ## 0.2.0 — 2026-10-03
 
 - Five languages. Every word `scripts/second.py` says to a person - the list, and the `why` of a second opinion

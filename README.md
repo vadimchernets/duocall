@@ -29,8 +29,8 @@ opinion wearing two hats. The script knows the families it can reach — OpenAI 
 among them, because Claude is the one asking. If no second family is installed, the plugin says so
 and points at the browser instead of inventing a pair.
 
-This is V1's rule, kept word for word: *"Pair = a DIFFERENT vendor, else the pair is honestly OFF
-(no same-vendor fake diversity)."*
+This is V1's rule: *"Pair = a DIFFERENT vendor, else the pair is OFF (no same-vendor fake
+diversity)."*
 
 ## What it never does
 

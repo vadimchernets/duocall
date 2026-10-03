@@ -18,7 +18,7 @@ form this skill's permission covers. Only if that path has a space in it, write
 `@'…'@ | ${CLAUDE_PLUGIN_ROOT}/hooks/python.ps1 …` (`| & "…"` if the path has a space) instead of `<<'EOF'` — also asked once.
 Never call `python3`, `python` or `py` yourself: the launcher finds a real Python 3.8+ (`python`,
 then `py -3`, then `python3`) and never starts the Microsoft Store or Apple stub. If it answers
-with one line saying duocall "is paused" because this computer has no working Python 3 yet, tell the
+with one line saying duocall "is paused" until this computer has Python 3, tell the
 person that in one plain line and go on by hand — never show them a Python error and stop.
 
 The user said: $ARGUMENTS
@@ -77,8 +77,7 @@ read theirs. **Answering after reading theirs is not a second round, it is agree
 ## 3. The three ways this ends, and all three are fine
 
 1. **One of the two corrected itself** — say who and why, and say what convinced them.
-2. **Both stuck to their guns.** Then the honest answer is that this cannot be settled between
-   AIs, and you say what *would* settle it: the exact line of the document, the page to open, the
+2. **Both stuck to their guns.** Then you say what settles it: the exact line of the document, the page to open, the
    person to ring.
 3. **Both were wrong.** It happens, and it is the most valuable outcome of the whole exercise.
 
@@ -87,11 +86,10 @@ read theirs. **Answering after reading theirs is not a second round, it is agree
 If the disagreement is still standing, say so in one line and give the person the step that ends
 it — not a guess dressed as a conclusion:
 
-> They still didn't agree. That means the document doesn't settle the question, and guessing isn't
-> allowed here. Call <who> and ask exactly one thing: <question>.
+> They still didn't agree, so the document doesn't settle this one. The step that does: call <who>
+> and ask exactly one thing: <question>.
 
-One escalation, not two. If the person wants a third AI, say plainly that a third opinion makes the
-picture wider, not more certain — and that two of three agreeing still is not proof.
+One escalation, not two. If the person wants a third AI, §5 has the two lines.
 
 ## 5. When they ask for a third AI
 

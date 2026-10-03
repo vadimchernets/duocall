@@ -18,7 +18,7 @@ form this skill's permission covers. Only if that path has a space in it, write
 `@'…'@ | ${CLAUDE_PLUGIN_ROOT}/hooks/python.ps1 …` (`| & "…"` if the path has a space) instead of `<<'EOF'` — also asked once.
 Never call `python3`, `python` or `py` yourself: the launcher finds a real Python 3.8+ (`python`,
 then `py -3`, then `python3`) and never starts the Microsoft Store or Apple stub. If it answers
-with one line saying duocall "is paused" because this computer has no working Python 3 yet, tell the
+with one line saying duocall "is paused" until this computer has Python 3, tell the
 person that in one plain line and go on by hand — never show them a Python error and stop.
 
 The user said: $ARGUMENTS
@@ -61,8 +61,8 @@ shown somebody else's answer agrees with it. That is the whole reason this is wo
 **If there is no second program**, that is not a failure and you do not apologise. Say it plainly
 and hand them the block to paste into a free chat in their browser:
 
-> There's no second program on this computer, and that's not a problem: open any free chat from
-> another company in your browser and paste this into it. Then send me back what it answers.
+> There's no second program on this computer - the browser does the job: open any free chat from
+> another company and paste this into it. Then send me back what it answers.
 >
 > ---
 > <the question, exactly as they asked it, and nothing else>
@@ -91,9 +91,8 @@ comparison, not in a quiet edit.
 
 The script says why, and the commonest reason is the allowance running out. Say it without blame:
 
-> ChatGPT didn't answer just now — it's run out of its monthly allowance. That's not a malfunction
-> and you don't need to pay for it: the allowance comes back on its own. You can get a second
-> opinion for free in the browser.
+> ChatGPT didn't answer just now - it has used up its monthly allowance. The allowance comes back
+> on its own, with nothing to pay. A free second opinion is ready in the browser.
 
 Never hide a failed second opinion and never quietly answer twice yourself and call it a pair.
 **A pair that did not happen is said out loud.**

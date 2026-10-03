@@ -2,10 +2,9 @@
 # -*- coding: utf-8 -*-
 """Duocall: find a second AI of ANOTHER company on this computer, and ask it.
 
-The rule that makes this worth anything is V1's, and it is not negotiable here either
-(`V1/docs/leaders.manifest.json`, principles):
+The rule that makes this worth anything is V1's (`V1/docs/leaders.manifest.json`, principles):
 
-    "Pair (second opinion) = a DIFFERENT vendor, else the pair is honestly OFF
+    "Pair (second opinion) = a DIFFERENT vendor, else the pair is OFF
      (no same-vendor fake diversity)."
 
 Two answers from the same company are one opinion wearing two hats. If the only program on this

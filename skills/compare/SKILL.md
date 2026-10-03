@@ -1,6 +1,6 @@
 ---
 name: compare
-description: Put two AI answers side by side and say honestly where they agree and where they do not - quoting both, never claiming agreement that cannot be shown. Use it right after a second AI has answered, and whenever the person pastes in what another AI told them and asks "who's right", "do they disagree?", "what do you think of this answer", "the other AI told me something different".
+description: Put two AI answers side by side and say exactly where they agree and where they do not - quoting both, never claiming agreement that cannot be shown. Use it right after a second AI has answered, and whenever the person pastes in what another AI told them and asks "who's right", "do they disagree?", "what do you think of this answer", "the other AI told me something different".
 argument-hint: "[the second answer, if the person is pasting it in]"
 allowed-tools: Read
 ---
@@ -58,9 +58,8 @@ A difference in wording alone is not — say so and move on.
 
 ## 3. The sentence that has to be there
 
-> Two AIs agreeing with each other is not proof. They trained on the same internet and make the
-> same kind of mistake more often than you'd think. Agreement only means no obvious error is
-> visible.
+> Two AIs agreeing with each other is not proof: they trained on the same internet. Agreement
+> means no obvious error is visible - and the differences show exactly where to look.
 
 The person came here to be told who is right. What they can actually be given is where to look,
 and that is worth more.
