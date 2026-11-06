@@ -1,5 +1,7 @@
 # Duocall
 
+> Poly helped? [Give it a star on GitHub](https://github.com/vadimchernets/duocall) - one click. The plugin is open to everyone either way.
+
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23107731.svg)](https://doi.org/10.5281/zenodo.23107731)
 
 **A second opinion from a different company's AI — and an honest account of where the two
