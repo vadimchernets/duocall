@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.2 — 2026-11-10
+
+- README only: the catalogue is added from its release file (https://github.com/vadimchernets/poly-a1-plugins/releases/latest/download/marketplace.json), so every install counts as a download of the release; the raw address stays as the fallback. A line asks for a star. No skill changes.
+
 ## 0.2.1 — 2026-10-03
 
 - Wording: no disclaimers. Every sentence the person hears says what works, not what to excuse: the browser chat is
